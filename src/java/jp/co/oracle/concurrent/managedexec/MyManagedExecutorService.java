@@ -17,7 +17,7 @@ public class MyManagedExecutorService {
 
     @Resource(name = "concurrent/MyManagedExecutorService")
     ManagedExecutorService managedExecsvc;
-    static final Logger logger = Logger.getLogger(MyManagedExecutorService.class.getPackage().getName());
+    private static final Logger logger = Logger.getLogger(MyManagedExecutorService.class.getPackage().getName());
 
     public void execExecutorService() {
         logger.log(Level.INFO, "METHOD CALL START");

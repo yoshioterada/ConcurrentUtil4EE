@@ -20,7 +20,7 @@ import jp.co.oracle.mail.MailSender;
  */
 @MessageDriven(mappedName = "jms/mailRegistQueue")
 public class SendMessageMDB implements MessageListener {
-    static final Logger logger = Logger.getLogger(SendMessageMDB.class.getPackage().getName());
+    private static final Logger logger = Logger.getLogger(SendMessageMDB.class.getPackage().getName());
 
     public SendMessageMDB(){
         

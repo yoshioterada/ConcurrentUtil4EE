@@ -25,7 +25,7 @@ public class MailSenderRunnableforEJBServlet implements Runnable {
     @Resource(name = "mail/MyMailSession")
     Session mailSession;
     AsyncContext ac;
-    static final Logger logger = Logger.getLogger(MailSenderRunnableforEJBServlet.class.getPackage().getName());
+    private static final Logger logger = Logger.getLogger(MailSenderRunnableforEJBServlet.class.getPackage().getName());
 
     public MailSenderRunnableforEJBServlet() {
     }

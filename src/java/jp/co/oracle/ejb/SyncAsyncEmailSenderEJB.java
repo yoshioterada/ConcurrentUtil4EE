@@ -17,17 +17,15 @@ public class SyncAsyncEmailSenderEJB {
     MailSender mailsend;
     @PersistenceContext(unitName = "UserRegisterPU")
     EntityManager em;
-    static final Logger logger = Logger.getLogger(SyncAsyncEmailSenderEJB.class.getPackage().getName());
+    private static final Logger logger = Logger.getLogger(SyncAsyncEmailSenderEJB.class.getPackage().getName());
 
     public void sendMessage(PersonEntity person) {
-        logger.log(Level.INFO, person.toString());
         em.persist(person);
         mailsend.sendMessage(person.getEmailaddress());
     }
 
     @Asynchronous
     public void asyncSendMessage(PersonEntity person) {
-        logger.log(Level.INFO, person.toString());
         em.persist(person);
         mailsend.sendMessage(person.getEmailaddress());
     }

@@ -22,7 +22,7 @@ public class JSFManagedBean {
     MyManagedExecutorService myexec;
     @Inject
     Person person;
-    static final Logger logger = Logger.getLogger(JSFManagedBean.class.getPackage().getName());
+    private static final Logger logger = Logger.getLogger(JSFManagedBean.class.getPackage().getName());
 
     public JSFManagedBean() {
     }

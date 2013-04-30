@@ -23,7 +23,7 @@ public class MailSender {
 
     @Resource(name = "mail/MyMailSession")
     Session mailSession;
-    static final Logger logger = Logger.getLogger(MailSender.class.getPackage().getName());
+    private static final Logger logger = Logger.getLogger(MailSender.class.getPackage().getName());
     
     public void sendMessage(String emailAddress) {
         logger.log(Level.SEVERE, "Current Thread : {0}", Thread.currentThread().toString());
