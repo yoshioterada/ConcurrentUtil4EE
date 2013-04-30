@@ -1,6 +1,8 @@
 package jp.co.oracle.mail;
 
 import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.ManagedBean;
 import javax.annotation.Resource;
 import javax.mail.Message;
@@ -18,14 +20,14 @@ import javax.servlet.AsyncContext;
 
 @ManagedBean(value = "MailSenderRunnable")
 public class MailSenderRunnableforEJBServlet implements Runnable {
-//    EJB からの呼び出しでは @Resource が利用可能 ?!
+    //EJB からの呼び出しでは @Resource が利用可能 ?!
 
     @Resource(name = "mail/MyMailSession")
     Session mailSession;
     AsyncContext ac;
+    static final Logger logger = Logger.getLogger(MailSenderRunnableforEJBServlet.class.getPackage().getName());
 
     public MailSenderRunnableforEJBServlet() {
-        ;
     }
 
     public MailSenderRunnableforEJBServlet(AsyncContext ac) {
@@ -36,14 +38,14 @@ public class MailSenderRunnableforEJBServlet implements Runnable {
                 InitialContext ctxt = new InitialContext();
                 mailSession = (Session) ctxt.lookup("java:comp/env/mail/MyMailSession");
             } catch (NamingException ne) {
-                ne.printStackTrace();
+                logger.log(Level.SEVERE, "Context Look up Failed :", ne);
             }
         }
     }
 
     @Override
     public void run() {
-        System.out.println("START ASNC PROCESSING");
+        logger.log(Level.INFO, "MailSenderRunnableforEJBServlet Async processing Start");
         sendMessage();
         /* もし、非同期の処理側の方でレスポンスを返したい場合
          * Async のコンテキストを渡す事で、下記のように記載可能 
@@ -60,11 +62,11 @@ public class MailSenderRunnableforEJBServlet implements Runnable {
          }
          */
         ac.complete();
-        System.out.println("END ASNC PROCESSING");
+        logger.log(Level.INFO, "MailSenderRunnableforEJBServlet Async processing END");
     }
 
     private void sendMessage() {
-        System.out.println("Current Thread : " + Thread.currentThread().toString());
+        logger.log(Level.INFO, "Current Thread : {0}", Thread.currentThread().toString());
 
         String email = ac.getRequest().getParameter("email");
 
@@ -73,7 +75,7 @@ public class MailSenderRunnableforEJBServlet implements Runnable {
             msg = createMessage(email, msg);
             Transport.send(msg);
         } catch (MessagingException | UnsupportedEncodingException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Send Message Failed :", e);
         }
     }
 

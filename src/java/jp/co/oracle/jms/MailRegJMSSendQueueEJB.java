@@ -21,9 +21,10 @@ public class MailRegJMSSendQueueEJB {
     Queue queue;
     @PersistenceContext(unitName = "UserRegisterPU")
     EntityManager em;
+    static final Logger logger = Logger.getLogger(MailRegJMSSendQueueEJB.class.getPackage().getName());
 
     public void registEmailAddress(PersonEntity person) {
-        Logger.getLogger(MailRegJMSSendQueueEJB.class.getName()).log(Level.INFO, person.toString());
+        logger.log(Level.INFO, person.toString());
 
         em.persist(person);
         try (JMSContext context = conn.createContext()) {

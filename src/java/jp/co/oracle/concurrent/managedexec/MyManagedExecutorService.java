@@ -17,23 +17,24 @@ public class MyManagedExecutorService {
 
     @Resource(name = "concurrent/MyManagedExecutorService")
     ManagedExecutorService managedExecsvc;
+    static final Logger logger = Logger.getLogger(MyManagedExecutorService.class.getPackage().getName());
 
     public void execExecutorService() {
-        Logger.getLogger(MyManagedExecutorService.class.getName()).log(Level.INFO, "METHOD CALL START");
+        logger.log(Level.INFO, "METHOD CALL START");
         Runnable task = new Runnable() {
             @Override
             public void run() {
                 try {
-                    Logger.getLogger(MyManagedExecutorService.class.getName()).log(Level.INFO, "ASYNC TASK START");
+                    logger.log(Level.INFO, "ASYNC TASK START");
                     Thread.sleep(10000);
-                    Logger.getLogger(MyManagedExecutorService.class.getName()).log(Level.INFO, "ASYNC TASK END");
+                    logger.log(Level.INFO, "ASYNC TASK END");
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(MyManagedExecutorService.class.getName()).log(Level.SEVERE, null, ex);
+                    logger.log(Level.SEVERE, null, ex);
                 }
             }
         };
         managedExecsvc.submit(task);
-        Logger.getLogger(MyManagedExecutorService.class.getName()).log(Level.INFO, "METHOD CALL END");
+        logger.log(Level.INFO, "METHOD CALL END");
         debugManagedExecutorService(managedExecsvc);
     }
 
@@ -46,12 +47,12 @@ public class MyManagedExecutorService {
             Field field = maClass.getDeclaredField("executor");
             field.setAccessible(true);
             ManagedExecutorServiceImpl mesi = (ManagedExecutorServiceImpl) field.get(ma);
-            Logger.getLogger(MyManagedExecutorService.class.getName()).log(Level.INFO, "ManagedExecutorServiceImpl NAME : " + mesi.getName());
+            logger.log(Level.INFO, "ManagedExecutorServiceImpl NAME : {0}", mesi.getName());
 
             // ManagedExecutorServiceImpl から ContextServiceImpl,ContextSetupProvider を取得
             ContextServiceImpl contextInfo = (ContextServiceImpl) mesi.getContextService();
             ContextSetupProvider provider = contextInfo.getContextSetupProvider();
-            Logger.getLogger(MyManagedExecutorService.class.getName()).log(Level.INFO, "CONTEXT INFO NAME : " + contextInfo.getName());
+            logger.log(Level.INFO, "CONTEXT INFO NAME : {0}", contextInfo.getName());
 
             // ManagedExecutorServiceImpl の protected フィールド
             // ManagedThreadPoolExecutor threadPoolExecutor を取得
@@ -60,9 +61,9 @@ public class MyManagedExecutorService {
             threadPoolExecutor.setAccessible(true);
             ManagedThreadPoolExecutor managedThreadPoolExec = (ManagedThreadPoolExecutor) threadPoolExecutor.get(mesi);
 
-            Logger.getLogger(MyManagedExecutorService.class.getName()).log(Level.INFO, "ManagedThreadPoolExecutor : " + managedThreadPoolExec.toString());
+            logger.log(Level.INFO, "ManagedThreadPoolExecutor : {0}", managedThreadPoolExec.toString());
         } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException | SecurityException ex) {
-            Logger.getLogger(MyManagedExecutorService.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, "debugManagedExecutorService failed ", ex);
         }
     }
 }

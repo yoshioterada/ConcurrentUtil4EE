@@ -16,27 +16,25 @@ public class JSFManagedBean {
 
     @EJB
     SyncAsyncEmailSenderEJB sender;
-
     @EJB
     MailRegJMSSendQueueEJB mailRegJMSEJB;
-    
     @EJB
     MyManagedExecutorService myexec;
-    
     @Inject
     Person person;
-    
+    static final Logger logger = Logger.getLogger(JSFManagedBean.class.getPackage().getName());
+
     public JSFManagedBean() {
     }
 
     public String pushSyncEmailSenderEJB() {
-        Logger.getLogger(JSFManagedBean.class.getName()).log(Level.INFO, person.toString());
+        logger.log(Level.INFO, person.toString());
         sender.sendMessage(person.getEntityObject());
         return "syncSendComplete";
     }
 
     public String pushAsyncEmailSenderEJB() {
-        Logger.getLogger(JSFManagedBean.class.getName()).log(Level.INFO, person.toString());
+        logger.log(Level.INFO, person.toString());
         sender.asyncSendMessage(person.getEntityObject());
         return "asyncSendComplete";
     }
@@ -50,5 +48,4 @@ public class JSFManagedBean {
         myexec.execExecutorService();
         return "";
     }
-
 }

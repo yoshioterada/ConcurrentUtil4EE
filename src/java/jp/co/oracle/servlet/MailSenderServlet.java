@@ -15,9 +15,11 @@ import jp.co.oracle.mail.MailSenderRunnableforEJBServlet;
 @WebServlet(name = "MailSenderServlet", urlPatterns = {"/MailSenderServlet"}, asyncSupported = true)
 public class MailSenderServlet extends HttpServlet {
 
+    static final Logger logger = Logger.getLogger(MailSenderServlet.class.getPackage().getName());
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Logger.getLogger(MailSenderServlet.class.getName()).log(Level.SEVERE, "START Servlet");
+        logger.log(Level.SEVERE, "START Servlet");
 
         AsyncContext ac = request.startAsync();
         ac.start(new MailSenderRunnableforEJBServlet(ac));
@@ -35,7 +37,7 @@ public class MailSenderServlet extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         }
-        System.out.println("END Servlet");
+        logger.log(Level.SEVERE, "End Servlet");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

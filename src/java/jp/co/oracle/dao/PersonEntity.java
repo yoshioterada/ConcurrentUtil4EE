@@ -1,12 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package jp.co.oracle.dao;
 
 import java.io.Serializable;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Named;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -210,7 +204,7 @@ public class PersonEntity implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof jp.co.oracle.cdi.Person)) {
+        if (!(object instanceof jp.co.oracle.dao.PersonEntity)){
             return false;
         }
         jp.co.oracle.dao.PersonEntity other = (jp.co.oracle.dao.PersonEntity) object;
@@ -222,7 +216,7 @@ public class PersonEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "jp.co.oracle.cdi.Person[ "
+        return "jp.co.oracle.cdi.PersonEntity[ "
                 + "id=" + id + "\t" 
                 + "name=" + name + "\t" 
                 + "katakananame=" + katakananame + "\t" 

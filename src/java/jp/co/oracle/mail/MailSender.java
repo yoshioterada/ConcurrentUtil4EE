@@ -1,6 +1,8 @@
 package jp.co.oracle.mail;
 
 import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.enterprise.context.Dependent;
 import javax.inject.Named;
@@ -14,27 +16,28 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
-//@ManagedBean(value = "MailSender")
+
 @Named(value = "MailSender")
 @Dependent
 public class MailSender {
 
     @Resource(name = "mail/MyMailSession")
     Session mailSession;
+    static final Logger logger = Logger.getLogger(MailSender.class.getPackage().getName());
     
     public void sendMessage(String emailAddress) {
-        System.out.println("Current Thread : " + Thread.currentThread().toString());
+        logger.log(Level.SEVERE, "Current Thread : {0}", Thread.currentThread().toString());
         Message msg = new MimeMessage(mailSession);
-        try{
+        try {
             Thread.sleep(10000); // 長い処理を実現ここでは 10 秒
-            msg = createMessage(emailAddress,msg);
+            msg = createMessage(emailAddress, msg);
             Transport.send(msg);
-        }catch(InterruptedException| MessagingException | UnsupportedEncodingException e){
-            e.printStackTrace();
-        }        
+        } catch (InterruptedException | MessagingException | UnsupportedEncodingException e) {
+            logger.log(Level.SEVERE, "Send Message failed : ", e);
+        }
     }
 
-    private Message createMessage(String emailAddress,Message msg) throws MessagingException, UnsupportedEncodingException {
+    private Message createMessage(String emailAddress, Message msg) throws MessagingException, UnsupportedEncodingException {
         msg.setRecipient(Message.RecipientType.TO,
                 new InternetAddress(
                 emailAddress,
@@ -51,8 +54,8 @@ public class MailSender {
         body.setContent(emailAddress + "さん、ご登録ありがとうございました。", "text/plain; charset=\"iso-2022-jp\"");
         contents.addBodyPart(body);
 
-        msg.setContent(contents);  
-        
+        msg.setContent(contents);
+
         return msg;
     }
 }
