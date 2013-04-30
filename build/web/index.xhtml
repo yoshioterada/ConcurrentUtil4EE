@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:outputLabel value="メールアドレス: "/>
+            <h:inputText id="email" value="#{jSFManagedBean.email}"/><br/>
+            <h:commandButton value="同期メール送信 from EJB" action="#{jSFManagedBean.pushSyncEmailSenderEJB()}"/><br/>
+            <h:commandButton value="非同期メール送信 from EJB" action="#{jSFManagedBean.pushAsyncEmailSenderEJB()}"/><br/>
+            <h:commandButton value="JMS(MDB) を使用したメール配信" action="#{jSFManagedBean.pushJMSRegister()}"/><br/>
+            
+            <h:link outcome="callMailSendServlet.xhtml" value="非同期メール送信 from サーブレット"/>
+
+
+            <h:commandButton value="管理された Executor Service の実行" action="#{jSFManagedBean.pushManagedExecService()}"/>
+
+
+        </h:form>
+    </h:body>
+</html>
