@@ -1,56 +1,54 @@
 package jp.co.oracle.cdi;
 
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import jp.co.oracle.concurrent.managedexec.MyManagedExecutorService;
-import jp.co.oracle.ejb.SyncEmailSenderEJB;
-import jp.co.oracle.jms.MailAddressRegisterEJB;
+import jp.co.oracle.ejb.SyncAsyncEmailSenderEJB;
+import jp.co.oracle.jms.MailRegJMSSendQueueEJB;
 
 @Named(value = "jSFManagedBean")
 @RequestScoped
 public class JSFManagedBean {
-    
-    @EJB
-    SyncEmailSenderEJB sender;
-    
-    private String email;
-  
-    public JSFManagedBean() {
-    }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-        
-    public String pushSyncEmailSenderEJB(){
-        sender.sendMessage(getEmail());
-        return "syncSendComplete";
-    }
-    
-    public String pushAsyncEmailSenderEJB(){
-        sender.asyncSendMessage(getEmail());
-        return "asyncSendComplete";
-    }
-    
     @EJB
-    MailAddressRegisterEJB mailRegEJB;
-    public String pushJMSRegister(){
-        mailRegEJB.registEmailAddress(getEmail());
-        return "asyncSendComplete";
-    }
-    
+    SyncAsyncEmailSenderEJB sender;
+
+    @EJB
+    MailRegJMSSendQueueEJB mailRegJMSEJB;
     
     @EJB
     MyManagedExecutorService myexec;
-    public String pushManagedExecService(){
+    
+    @Inject
+    Person person;
+    
+    public JSFManagedBean() {
+    }
+
+    public String pushSyncEmailSenderEJB() {
+        Logger.getLogger(JSFManagedBean.class.getName()).log(Level.INFO, person.toString());
+        sender.sendMessage(person.getEntityObject());
+        return "syncSendComplete";
+    }
+
+    public String pushAsyncEmailSenderEJB() {
+        Logger.getLogger(JSFManagedBean.class.getName()).log(Level.INFO, person.toString());
+        sender.asyncSendMessage(person.getEntityObject());
+        return "asyncSendComplete";
+    }
+
+    public String pushJMSRegister() {
+        mailRegJMSEJB.registEmailAddress(person.getEntityObject());
+        return "asyncSendComplete";
+    }
+
+    public String pushManagedExecService() {
         myexec.execExecutorService();
         return "";
     }
-    
+
 }

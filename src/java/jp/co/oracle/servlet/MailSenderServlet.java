@@ -1,11 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package jp.co.oracle.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.AsyncContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,20 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import jp.co.oracle.mail.MailSenderRunnableforEJBServlet;
 
-
 @WebServlet(name = "MailSenderServlet", urlPatterns = {"/MailSenderServlet"}, asyncSupported = true)
 public class MailSenderServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("START Servlet");
+        Logger.getLogger(MailSenderServlet.class.getName()).log(Level.SEVERE, "START Servlet");
 
         AsyncContext ac = request.startAsync();
         ac.start(new MailSenderRunnableforEJBServlet(ac));
         String email = request.getParameter("email");
-        
+
         response.setContentType("text/html;charset=UTF-8");
-        try(PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");

@@ -1,24 +1,133 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        <h:form>
-            <h:outputLabel value="メールアドレス: "/>
-            <h:inputText id="email" value="#{jSFManagedBean.email}"/><br/>
-            <h:commandButton value="同期メール送信 from EJB" action="#{jSFManagedBean.pushSyncEmailSenderEJB()}"/><br/>
-            <h:commandButton value="非同期メール送信 from EJB" action="#{jSFManagedBean.pushAsyncEmailSenderEJB()}"/><br/>
-            <h:commandButton value="JMS(MDB) を使用したメール配信" action="#{jSFManagedBean.pushJMSRegister()}"/><br/>
-            
-            <h:link outcome="callMailSendServlet.xhtml" value="非同期メール送信 from サーブレット"/>
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>ユーザ登録画面</title>
+            </f:facet>
+        </h:head>
+        <h:body>
+            <h:form>
+                <table border="1">
+                    <tr>
+                        <TD>
+                            <h:outputLabel value="名前"/> 
+                        </TD>
+                        <TD>
+                            <h:inputText maxlength="128" value="#{person.name}"/>
+                        </TD>
+                    </tr>
+
+                    <tr>
+                        <TD>
+                            <h:outputLabel value="フリガナ"/>
+                        </TD>
+                        <TD>
+                            <h:inputText maxlength="128" value="#{person.katakananame}"/>
+                        </TD>
+                    </tr>
+
+                    <tr>
+                        <TD>
+                            <h:outputLabel value="メール・アドレス"/>
+                        </TD>
+                        <TD>
+                            <h:inputText id="email" value="#{person.emailaddress}"/>
+                        </TD>
+                    </tr>
+
+                    <tr>
+                        <TD>
+                            <h:outputLabel value="性別"/>                            
+                        </TD>
+                        <TD>
+                            <h:inputText maxlength="128" value="#{person.sex}"/>
+                        </TD>
+                    </tr>
+
+                    <tr>
+                        <TD>
+                            <h:outputLabel value="生年月日"/> 
+                        </TD>
+                        <TD>
+                            <h:inputText maxlength="10" value="#{person.birthyear}"/>年
+                            <h:inputText maxlength="4" value="#{person.birthmonth}"/>月
+                            <h:inputText maxlength="4" value="#{person.birthday}"/>日
+                        </TD>
+                    </tr>
+
+                    <tr>
+                        <TD>
+                            <h:outputLabel value="都道府県"/>
+                        </TD>
+                        <TD>
+                            <h:inputText maxlength="128" value="#{person.prefecture}"/>
+                        </TD>
+                    </tr>
+
+                    <tr>
+                        <TD>
+                            <h:outputLabel value="市町村"/>
+                        </TD>
+                        <TD>
+                            <h:inputText maxlength="128" value="#{person.city}"/>
+                        </TD>
+                    </tr>
+
+                    <tr>
+                        <TD>
+                            <h:outputLabel value="番地"/> 
+                        </TD>
+                        <TD>
+                            <h:inputText maxlength="128" value="#{person.address}"/>
+                        </TD>
+                    </tr>
+
+                    <tr>
+                        <TD>
+                            <h:outputLabel value="電話番号"/>
+                        </TD>
+                        <TD>
+                            <h:inputText maxlength="128" value="#{person.phonenumber}"/>
+                        </TD>
+                    </tr>
 
 
-            <h:commandButton value="管理された Executor Service の実行" action="#{jSFManagedBean.pushManagedExecService()}"/>
+                    <tr>
+                        <TD>
+                            <h:outputLabel value="パスワード"/>
+                        </TD>
+                        <TD>
+                            <h:inputSecret maxlength="128" value="#{person.password}"/>
+                        </TD>
+                    </tr>
+                    <tr>
+                        <TD>
+                            <h:outputLabel value="パスワード(確認用)"/>
+                        </TD>
+                        <TD>
+                            <h:inputSecret maxlength="128" value="#{person.password2}"/>
+                        </TD>
+                    </tr>
+                </table>
 
 
-        </h:form>
-    </h:body>
+                <h:commandButton value="同期メール送信 from EJB" action="#{jSFManagedBean.pushSyncEmailSenderEJB()}"/><br/>
+                <h:commandButton value="非同期メール送信 from EJB" action="#{jSFManagedBean.pushAsyncEmailSenderEJB()}"/><br/>
+                <h:commandButton value="JMS(MDB) を使用したメール配信" action="#{jSFManagedBean.pushJMSRegister()}"/><br/>
+
+                <h:link outcome="callMailSendServlet.xhtml" value="非同期メール送信 from サーブレット"/><br/>
+
+                <h:commandButton value="管理された Executor Service の実行" action="#{jSFManagedBean.pushManagedExecService()}"/>
+
+            </h:form>
+            <br />
+        </h:body>
+    </f:view>
 </html>
