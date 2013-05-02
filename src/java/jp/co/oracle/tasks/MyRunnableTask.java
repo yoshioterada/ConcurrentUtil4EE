@@ -1,12 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package jp.co.oracle.tasks;
 
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import jp.co.oracle.concurrent.managedexec.MyManagedExecutorService;
+
 
 /**
  *
@@ -18,9 +15,13 @@ public class MyRunnableTask implements Runnable {
     @Override
     public void run() {        
         try {
-            logger.log(Level.INFO, "ASYNC TASK START");
+            Thread current = Thread.currentThread();
+            logger.log(Level.INFO, "Current Thread Name: {0}", current.getName());
+            URL url = current.getContextClassLoader().getResource("hostname");
+
+            logger.log(Level.INFO, "ASYNC Runnable TASK START");
             Thread.sleep(10000);
-            logger.log(Level.INFO, "ASYNC TASK END");
+            logger.log(Level.INFO, "ASYNC Runnable TASK END");
         } catch (InterruptedException ex) {
             logger.log(Level.SEVERE, null, ex);
         }

@@ -5,8 +5,9 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.enterprise.concurrent.ManagedExecutorService;
+import javax.enterprise.concurrent.ManagedExecutors;
 import jp.co.oracle.tasks.MyRunnableTask;
-import jp.co.oracle.tasks.MyRunnableWithTaskListner;
+
 
 @Stateless
 public class TaskListenerSample {
@@ -17,7 +18,10 @@ public class TaskListenerSample {
 
     public void invokeMyTaskListener() {
         logger.log(Level.INFO, "Async TaskListener Sample START");
-        MyRunnableWithTaskListner task = new MyRunnableWithTaskListner();
+        MyRunnableTask task = new MyRunnableTask();
+        MyManagedTaskListener listener = new MyManagedTaskListener();
+        
+        Runnable taskWithListener = ManagedExecutors.managedTask(task, listener);
         manageExecsvc.execute(task);
         logger.log(Level.INFO, "Async TaskListener Sample END");
     }
