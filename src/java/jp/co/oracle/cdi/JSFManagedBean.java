@@ -6,9 +6,14 @@ import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import jp.co.oracle.concurrent.context.ContextServiceManager;
 import jp.co.oracle.concurrent.managedexec.MyManagedExecutorService;
+import jp.co.oracle.concurrent.scheduled.MyManagedScheduledExecutorService;
+import jp.co.oracle.concurrent.tasklisteners.TaskListenerSample;
+import jp.co.oracle.concurrent.threadfactory.ThreadFactorySample;
 import jp.co.oracle.ejb.SyncAsyncEmailSenderEJB;
 import jp.co.oracle.jms.MailRegJMSSendQueueEJB;
+import jp.co.oracle.tasks.MyRunnableTask;
 
 @Named(value = "jSFManagedBean")
 @RequestScoped
@@ -46,6 +51,45 @@ public class JSFManagedBean {
 
     public String pushManagedExecService() {
         myexec.execExecutorService();
+        return "";
+    }
+    
+    public String pushUnsupportedCreateNewThread(){
+        MyRunnableTask task = new MyRunnableTask();
+        Thread thread = new Thread(task);
+        thread.start();
+        return "";
+    }
+
+    @EJB
+    ContextServiceManager contextManager;
+    
+    public String pushExecContextService(){
+        contextManager.execContextService();
+        return "";
+    }
+    
+    @EJB
+    MyManagedScheduledExecutorService myScheduleService;
+    
+    public String pushScheduledExecService(){
+        myScheduleService.execScheduledExecutorService();
+        return "";
+    }
+
+    @EJB
+    TaskListenerSample taskListenerSample;
+    
+    public String pushTaskListenerSample(){
+        taskListenerSample.invokeMyTaskListener();
+        return "";
+    }
+    
+    @EJB
+    ThreadFactorySample threadFacSample;
+    
+    public String pushThreadFactorySample(){
+        threadFacSample.execThreadFactory();
         return "";
     }
 }

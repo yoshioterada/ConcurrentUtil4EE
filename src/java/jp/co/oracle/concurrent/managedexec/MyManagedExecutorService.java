@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.enterprise.concurrent.ManagedExecutorService;
+import jp.co.oracle.tasks.MyRunnableTask;
 import org.glassfish.enterprise.concurrent.ContextServiceImpl;
 import org.glassfish.enterprise.concurrent.ManagedExecutorServiceAdapter;
 import org.glassfish.enterprise.concurrent.ManagedExecutorServiceImpl;
@@ -19,20 +20,10 @@ public class MyManagedExecutorService {
     ManagedExecutorService managedExecsvc;
     private static final Logger logger = Logger.getLogger(MyManagedExecutorService.class.getPackage().getName());
 
+    
     public void execExecutorService() {
         logger.log(Level.INFO, "METHOD CALL START");
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    logger.log(Level.INFO, "ASYNC TASK START");
-                    Thread.sleep(10000);
-                    logger.log(Level.INFO, "ASYNC TASK END");
-                } catch (InterruptedException ex) {
-                    logger.log(Level.SEVERE, null, ex);
-                }
-            }
-        };
+        MyRunnableTask task = new MyRunnableTask();
         managedExecsvc.submit(task);
         logger.log(Level.INFO, "METHOD CALL END");
         debugManagedExecutorService(managedExecsvc);
@@ -40,7 +31,7 @@ public class MyManagedExecutorService {
 
     private void debugManagedExecutorService(ManagedExecutorService managedExecsvc) {
         ManagedExecutorServiceAdapter ma = (ManagedExecutorServiceAdapter) managedExecsvc;
-        try {
+        try {            
             // リフレクションで ManagedExecutorServiceAdapter の protected フィールド
             // ManagedExecutorServiceImpl executor を取得
             Class maClass = ma.getClass();
