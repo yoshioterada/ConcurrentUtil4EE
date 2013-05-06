@@ -125,6 +125,7 @@
                 <h:link outcome="callMailSendServlet.xhtml" value="非同期メール送信 from サーブレット"/><br/>
 
                 <h:commandButton value="管理された Executor Service の実行" action="#{jSFManagedBean.pushManagedExecService()}"/><br/>
+                <h:commandButton value="管理された Executor Service の実行 2(返り値の取得)" action="#{jSFManagedBean.pushManagedExecService2()}"/><br/>
                 <h:commandButton value="サポート外のタスク生成＆実行" action="#{jSFManagedBean.pushUnsupportedCreateNewThread()}"/><br/>
                 <h:commandButton value="コンテキスト・サービスによるタスク実行" action="#{jSFManagedBean.pushExecContextService()}"/><br/>
                 <h:commandButton value="スケジューリングによるタスク実行" action="#{jSFManagedBean.pushScheduledExecService()}"/><br/>

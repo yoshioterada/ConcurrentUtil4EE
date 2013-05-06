@@ -54,6 +54,11 @@ public class JSFManagedBean {
         return "";
     }
     
+    public String pushManagedExecService2() {
+        myexec.execExecutorService2();
+        return "";
+    }    
+    
     public String pushUnsupportedCreateNewThread(){
         MyRunnableTask task = new MyRunnableTask();
         Thread thread = new Thread(task);
