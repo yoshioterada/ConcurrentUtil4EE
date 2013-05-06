@@ -133,6 +133,32 @@
                 
             </h:form>
             <br />
+            
+            ※1 本プログラムを動作させるために、AppServer-メールサーバの設定が必要 <br/>
+            GlassFish v4.0 でGMailに接続する場合<br/>
+            asadmin コマンドで下記を実行<br/>
+            # <B>asadmin create-javamail-resource <br/>
+            --mailhost "smtp.gmail.com" <br/>
+            --mailuser "foo@gmail.com" <br/>
+            --fromaddress "foo@gmail.com" <br/>
+            --property "mail.smtp.socketFactory.class=javax.net.ssl.SSLSoc ketFactory:mail.smtp.socketFactory.port=465:mail.smtp.port=465:mail.smtp.socketFactory.fallback=false:mail.smtp.auth=true:mail.smtp.password=[FOO's Password]" 
+            mail/MyMailSession</B><br/>
+            <br/><br/>
+            ※2 本プログラムを動作させるために、AppServer の MQ の物理送信先の設定が必要<br/>
+            GlassFish v4.0 で MQ の物理宛先の設定方法<br/>
+            asadmin コマンドで下記を実行<br/>
+            #<B> asadmin create-jms-resource <br/>
+            --restype javax.jms.Queue<br/> 
+            --property Name=registQueue<br/>
+            jms/mailRegistQueue</B><br/><br/>
+            
+            
+            ※3 本プログラムを動作させるために、AppServer でJDBCリソースの設定が必要<br/>
+            GlassFish v4.0 で JDBC リソースの設定方法(Derbyを利用する場合)<br/>
+            asadmin コマンドで下記を実行<br/>
+            #<B>asadmin create-jdbc-resource <br/>
+                --connectionpoolid DerbyPool <br/>
+                jdbc/sample</B><BR/>
         </h:body>
     </f:view>
 </html>
