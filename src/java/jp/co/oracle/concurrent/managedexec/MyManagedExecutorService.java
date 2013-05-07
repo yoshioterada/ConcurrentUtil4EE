@@ -35,18 +35,37 @@ public class MyManagedExecutorService {
         logger.log(Level.INFO, "METHOD CALL END");
         debugManagedExecutorService(managedExecsvc);
     }
-    
+
 //    @Asynchronous
-    public void execExecutorService2(){
+    public void execExecutorService2() {
         List<Callable<String>> tasks = new ArrayList<>();
-        for(int i=0;i<10;i++){
-            MyCallableTask task = new MyCallableTask(new Integer(i).toString());            
+        // 単一非同期タスク実行
+        MyCallableTask singleTask = new MyCallableTask("Foo Bar");
+        Future<String> singleFuture = managedExecsvc.submit(singleTask);
+        while(!singleFuture.isDone()){
+            try {
+                Thread.sleep(1000);
+                logger.log(Level.INFO, "Waiting the finish of this task");
+            } catch (InterruptedException ex) {
+                Logger.getLogger(MyManagedExecutorService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        try {
+            logger.log(Level.INFO, "Single Future#get(): {0}", singleFuture.get());
+        } catch (InterruptedException | ExecutionException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }
+
+
+        // 複数同時非同期タスク実行
+        for (int i = 0; i < 10; i++) {
+            MyCallableTask task = new MyCallableTask(new Integer(i).toString());
             tasks.add(task);
         }
         try {
             List<Future<String>> futures = managedExecsvc.invokeAll(tasks);
 
-            for (Future<String> future: futures) {
+            for (Future<String> future : futures) {
                 try {
                     logger.log(Level.INFO, "Future#get(): {0}", future.get());
                 } catch (ExecutionException ex) {
@@ -57,11 +76,10 @@ public class MyManagedExecutorService {
             logger.log(Level.SEVERE, null, ex);
         }
     }
-    
 
     private void debugManagedExecutorService(ManagedExecutorService managedExecsvc) {
         ManagedExecutorServiceAdapter ma = (ManagedExecutorServiceAdapter) managedExecsvc;
-        try {            
+        try {
             // リフレクションで ManagedExecutorServiceAdapter の protected フィールド
             // ManagedExecutorServiceImpl executor を取得
             Class maClass = ma.getClass();
