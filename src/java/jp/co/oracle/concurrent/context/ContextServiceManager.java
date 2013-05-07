@@ -12,9 +12,7 @@ import jp.co.oracle.tasks.MyRunnableTask;
 
 @Stateless
 public class ContextServiceManager {
-
     private ExecutorService threadPoolExecutor = null;
-
     @Resource(name = "concurrent/DefaultContextService")
     ContextService ctxSvc;
     @Resource(name = "concurrent/DefaultManagedThreadFactory")
@@ -28,6 +26,16 @@ public class ContextServiceManager {
                 ctxSvc.createContextualProxy(task, Runnable.class);
         threadPool.submit(runnableTaskWithCtx, Long.MIN_VALUE);
     }
+    
+    public void execSimpleContextService() {
+        ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor(threadFactory);
+        MyRunnableTask task = new MyRunnableTask();
+        Runnable runnableTaskWithCtx =
+                ctxSvc.createContextualProxy(task, Runnable.class);
+        singleThreadExecutor.submit(runnableTaskWithCtx);
+    }
+    
+    
 
     // 下記のメソッドは本来なら別のシングルトン EJBに実装して
     // アプリケーション・全体で共有するようにした方がよい
