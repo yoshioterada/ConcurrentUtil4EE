@@ -12,21 +12,21 @@ public class MyManagedTaskListener implements ManagedTaskListener {
 
     @Override
     public void taskSubmitted(Future<?> future, ManagedExecutorService mes, Object o) {
-        logger.log(Level.INFO, "MyManagedTaskListener:Task is Submitted {0}:{1}", new Object[]{mes.toString(), o.toString()});
+        logger.log(Level.INFO, "MyManagedTaskListener:Task is Submitted ");
     }
 
     @Override
     public void taskStarting(Future<?> future, ManagedExecutorService mes, Object o) {
-        logger.log(Level.INFO, "MyManagedTaskListener:Task is Starting {0}:{1}", new Object[]{mes.toString(), o.toString()});
+        logger.log(Level.INFO, "MyManagedTaskListener:Task is Starting ");
     }
 
     @Override
     public void taskAborted(Future<?> future, ManagedExecutorService mes, Object o, Throwable thrwbl) {
-        logger.log(Level.INFO, "MyManagedTaskListener:Task is Aborted {0}:{1}", new Object[]{mes.toString(), o.toString()});
+        logger.log(Level.INFO, "MyManagedTaskListener:Task is Aborted ");
     }
 
     @Override
     public void taskDone(Future<?> future, ManagedExecutorService mes, Object o, Throwable thrwbl) {
-        logger.log(Level.INFO, "MyManagedTaskListener:Task is Done {0}:{1}", new Object[]{mes.toString(), o.toString()});
+        logger.log(Level.INFO, "MyManagedTaskListener:Task is Done ");
     }
 }

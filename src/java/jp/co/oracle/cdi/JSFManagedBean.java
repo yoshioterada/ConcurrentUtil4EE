@@ -74,6 +74,11 @@ public class JSFManagedBean {
         return "";
     }
     
+    public String pushSimpleExecContextService(){
+        contextManager.execSimpleContextService();
+        return "";
+    }
+    
     @EJB
     MyManagedScheduledExecutorService myScheduleService;
     

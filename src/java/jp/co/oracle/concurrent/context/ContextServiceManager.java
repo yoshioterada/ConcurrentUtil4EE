@@ -30,9 +30,9 @@ public class ContextServiceManager {
     public void execSimpleContextService() {
         ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor(threadFactory);
         MyRunnableTask task = new MyRunnableTask();
-        Runnable runnableTaskWithCtx =
+        Runnable proxiedTask =
                 ctxSvc.createContextualProxy(task, Runnable.class);
-        singleThreadExecutor.submit(runnableTaskWithCtx);
+        singleThreadExecutor.submit(proxiedTask);
     }
     
     
