@@ -29,10 +29,11 @@ public class TaskListenerSample {
         manageExecsvc.execute(taskWithListener);
         logger.log(Level.INFO, "Async RunnableTaskListener END");
 
+
         logger.log(Level.INFO, "Async RunnableTaskListener START");
         MyCallableTask task2 = new MyCallableTask("Managed Task");
         Callable callTaskWithLiestner = ManagedExecutors.managedTask(task2, listener);
-        Future result = manageExecsvc.submit(callTaskWithLiestner);
+        Future<String> result = manageExecsvc.submit(callTaskWithLiestner);
         try {
             logger.log(Level.INFO, "Async CallableTaskListener Sample END : {0}", result.get().toString());
         } catch (InterruptedException | ExecutionException ex) {

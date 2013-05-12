@@ -11,8 +11,6 @@ import jp.co.oracle.dao.PersonEntity;
 
 @Stateless
 public class MailRegJMSSendQueueEJB {
-//    @javax.jms.JMSConnectionFactory(value = "java:comp/DefaultJMSConnectionFactory")
-
     @Resource(mappedName = "java:comp/DefaultJMSConnectionFactory")
     ConnectionFactory conn;
     @Resource(mappedName = "jms/mailRegistQueue")
@@ -22,7 +20,6 @@ public class MailRegJMSSendQueueEJB {
 
     public void registEmailAddress(PersonEntity person) {
         logger.log(Level.INFO, person.toString());
-
         try (JMSContext context = conn.createContext()) {
             context.createProducer().send(queue, person.getAddress());
         }

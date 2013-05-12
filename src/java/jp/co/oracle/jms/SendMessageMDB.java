@@ -10,10 +10,6 @@ import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 import jp.co.oracle.mail.MailSender;
 
-/**
- *
- * @author tyoshio2002
- */
 @MessageDriven(mappedName = "jms/mailRegistQueue")
 public class SendMessageMDB implements MessageListener {
     private static final Logger logger = Logger.getLogger(SendMessageMDB.class.getPackage().getName());

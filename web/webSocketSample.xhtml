@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>WebSocket Async Sample</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>WebSocket Async Sample</title>
+        <style type="text/css">
+            table,td,th { 
+                width: 700px;
+                border-collapse: collapse; 
+                border: 1px black solid; 
+            }
+        </style>
+
+        <script language="javascript" type="text/javascript">
+            var wsUri = "ws://localhost:8080/ConcurrentUtil4EE/asyncResult";
+            var websocket = new WebSocket(wsUri);
+            websocket.onopen = function(evt) { onOpen(evt); };
+            websocket.onmessage = function(evt) { onMessage(evt); };
+            websocket.onerror = function(evt) { onError(evt); };
+
+            var  numberOfMessage;
+
+            function init() {
+                numberOfMessage = 0;
+            }
+            function onOpen(evt) {
+                ;
+            }
+
+            function onMessage(evt) {                                        
+                writeToScreen(evt.data);                    
+                numberOfMessage++;
+            }
+
+            function onError(evt) {
+                writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+            }
+            
+
+            function writeToScreen(messages) {
+                var table = document.getElementById("TBL"); 
+                var row = table.insertRow(0);  
+                var cell1 = row.insertCell(0); 
+                
+                var textNode = document.createTextNode(messages);
+
+                var z = numberOfMessage%2;
+                if(z==1){
+                    cell1.style.backgroundColor="#ADD8E6" ;
+                }
+                cell1.appendChild(textNode);
+            }
+
+            window.addEventListener("load", init, false);
+        </script>
+    </h:head>
+    <h:body>
+        <h2>WebSocket Async Application!!</h2>
+        <TABLE BORDER="1" ID="TBL">            
+        </TABLE>
+    </h:body>
+</html>
+
