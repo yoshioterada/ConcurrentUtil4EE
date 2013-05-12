@@ -4,11 +4,10 @@
  */
 package jp.co.oracle.tasks;
 
-import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.websocket.Session;
+
 
 /**
  *
@@ -34,7 +33,7 @@ public class WebSocketHotelSearchTask implements Callable<String> {
                 Thread.sleep(4000);
             }
 
-            result = "ホテル検索タスク完了 : タスクのランダム ID" + counter;;
+            result = "ホテル検索タスク完了 : 終了タスクの ID" + counter;;
         } catch (InterruptedException ex) {
             logger.log(Level.SEVERE, null, ex);
         }

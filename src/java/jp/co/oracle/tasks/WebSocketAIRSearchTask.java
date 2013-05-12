@@ -1,6 +1,5 @@
 package jp.co.oracle.tasks;
 
-import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,13 +18,13 @@ public class WebSocketAIRSearchTask implements Callable<String> {
         String result = "";
         try {
             if (counter % 2 == 1) {
-                Thread.sleep(3000);
+                Thread.sleep(1000);
             }
             if (counter % 3 == 1) {
-                Thread.sleep(5000);
+                Thread.sleep(3000);
             }
 
-            result = "飛行機検索タスク完了 : タスクのランダム ID" + counter;
+            result = "飛行機検索タスク完了 : 終了タスクの ID" + counter;
         } catch (InterruptedException ex) {
             logger.log(Level.SEVERE, null, ex);
         }

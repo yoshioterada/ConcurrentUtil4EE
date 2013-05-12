@@ -3,8 +3,6 @@ package jp.co.oracle.websocket;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.Future;
@@ -44,8 +42,13 @@ public class AsyncResultWebSocketEndpoint {
 
         List<Future<String>> futures = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            WebSocketHotelSearchTask task = new WebSocketHotelSearchTask(i);
-            futures.add(execCompService.submit(task));
+            if (i % 2 == 1) {
+                WebSocketHotelSearchTask task = new WebSocketHotelSearchTask(i);
+                futures.add(execCompService.submit(task));
+            }else{
+                WebSocketAIRSearchTask task2 = new WebSocketAIRSearchTask(i);
+                futures.add(execCompService.submit(task2));
+            }
         }
         try {
             for (Future<String> results : futures) {

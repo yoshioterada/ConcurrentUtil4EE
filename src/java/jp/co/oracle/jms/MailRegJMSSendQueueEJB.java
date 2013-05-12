@@ -21,7 +21,7 @@ public class MailRegJMSSendQueueEJB {
     public void registEmailAddress(PersonEntity person) {
         logger.log(Level.INFO, person.toString());
         try (JMSContext context = conn.createContext()) {
-            context.createProducer().send(queue, person.getAddress());
+            context.createProducer().send(queue, person.getEmailaddress());
         }
     }
 }
