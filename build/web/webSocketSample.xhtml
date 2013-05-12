@@ -16,15 +16,22 @@
 
         <script language="javascript" type="text/javascript">
             var wsUri = "ws://localhost:8080/ConcurrentUtil4EE/asyncResult";
-            var websocket;
+            var websocket = null;
             var numberOfMessage;
 
             function init() {
                 numberOfMessage = 0;
+                document.getElementById("sendMsg").style.display = "none";
             }
 
             function connectServerEndpoint() {
+                if ("WebSocket" in window) {
+                    websocket = new WebSocket(wsUri);
+                } else if ("MozWebSocket" in window) {
+                    websocket = new MozWebSocket(wsUri);
+                }
                 websocket = new WebSocket(wsUri);
+
                 websocket.onopen = function(evt) {
                     onOpen(evt);
                 };
@@ -34,6 +41,8 @@
                 websocket.onerror = function(evt) {
                     onError(evt);
                 };
+                document.getElementById("connect").style.display = "none";
+                document.getElementById("sendMsg").style.display = "block";
             }
 
             function onOpen(evt) {
@@ -46,20 +55,24 @@
             }
 
             function onError(evt) {
-                writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+                writeToScreen("ERROR: " + evt.data);
             }
 
+            function sendMessage() {
+                if (websocket) {
+                    websocket.send("re-execute");
+                }
+            }
 
             function writeToScreen(messages) {
                 var table = document.getElementById("TBL");
                 var row = table.insertRow(0);
                 var cell1 = row.insertCell(0);
+                cell1.style.color = "WHITE";
 
                 var textNode = document.createTextNode(messages);
 
                 var z = numberOfMessage % 2;
-                cell1.style.color = "WHITE";
-
                 if (z == 1) {
                     cell1.style.backgroundColor = "#669900";
                 } else {
@@ -72,8 +85,9 @@
         </script>
     </h:head>
     <h:body>
-        <h2>WebSocket Async Application!!</h2>
-        <input type="button" value="非同期処理開始" onClick="connectServerEndpoint()"></input>
+        <h2>WebSocket 非同期・並列処理　サンプルアプリケーション!!</h2>
+        <input id="connect" type="button" value="WebSocket Server エンドポイント接続" onClick="connectServerEndpoint();"></input>
+        <input id="sendMsg" type="button" value="非同期処理の再実行" onClick="sendMessage();"></input>
         <TABLE BORDER="1" ID="TBL">            
         </TABLE>
     </h:body>

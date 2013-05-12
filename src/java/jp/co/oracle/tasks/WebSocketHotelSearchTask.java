@@ -14,20 +14,18 @@ import javax.websocket.Session;
  *
  * @author tyoshio2002
  */
-public class WebSocketHotelSearchTask implements Callable<Boolean> {
+public class WebSocketHotelSearchTask implements Callable<String> {
 
     private static final Logger logger = Logger.getLogger(WebSocketHotelSearchTask.class.getPackage().getName());
-    private Session session;
     private int counter;
 
-    public WebSocketHotelSearchTask(Session session,int counter) {
-        this.session = session;
+    public WebSocketHotelSearchTask(int counter) {
         this.counter = counter;
     }
 
     @Override
-    public Boolean call() {
-        boolean result = false;
+    public String call() {
+        String result = "";
         try {
             if (counter % 3 == 1) {
                 Thread.sleep(2000);
@@ -36,9 +34,8 @@ public class WebSocketHotelSearchTask implements Callable<Boolean> {
                 Thread.sleep(4000);
             }
 
-            session.getBasicRemote().sendText("ホテル検索タスク完了 : 旅行会社" + counter);
-            result = true;
-        } catch (IOException | InterruptedException ex) {
+            result = "ホテル検索タスク完了 : タスクのランダム ID" + counter;;
+        } catch (InterruptedException ex) {
             logger.log(Level.SEVERE, null, ex);
         }
         return result;
